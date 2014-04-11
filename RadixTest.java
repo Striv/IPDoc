@@ -83,37 +83,37 @@ public class RadixTest {
                     i = Integer.parseInt(i, 8) + "";
                 IP_OUT += (i + ".");
             }
-            return IP_OUT.substring(0,IP_OUT.length()-2);
+            return IP_OUT.substring(0,IP_OUT.length()-1);
         }
         else // Case where ip address is concatenated string
         {
             if (IP.indexOf("0x") == 0)
             {
-                IP_OUT += "0x" + IP.substring(2,3) + ".";
-                IP_OUT += "0x" + IP.substring(4,5) + ".";
-                IP_OUT += "0x" + IP.substring(6,7) + ".";
-                IP_OUT += "0x" + IP.substring(8,9);
+                IP_OUT += "0x" + IP.substring(2,4) + ".";
+                IP_OUT += "0x" + IP.substring(4,6) + ".";
+                IP_OUT += "0x" + IP.substring(6,8) + ".";
+                IP_OUT += "0x" + IP.substring(8,10);
             }
             else if(IP.length() == 31)
             {
-                IP_OUT += "0" + IP.substring(0,6) + ".";
-                IP_OUT += IP.substring(7,14) + ".";
-                IP_OUT += IP.substring(15,22) + ".";
-                IP_OUT += IP.substring(23,30);                
+                IP_OUT += "0" + IP.substring(0,7) + ".";
+                IP_OUT += IP.substring(7,15) + ".";
+                IP_OUT += IP.substring(15,16) + ".";
+                IP_OUT += IP.substring(23,31);                
             }
             else if(IP.length() == 32)
             {
-                IP_OUT += IP.substring(0,7) + ".";
-                IP_OUT += IP.substring(8,15) + ".";
-                IP_OUT += IP.substring(16,23) + ".";
-                IP_OUT += IP.substring(24,31);                
+                IP_OUT += IP.substring(0,8) + ".";
+                IP_OUT += IP.substring(8,16) + ".";
+                IP_OUT += IP.substring(16,24) + ".";
+                IP_OUT += IP.substring(24,32);                
             }
             else if(IP.length() == 12)
             {
-                IP_OUT += "0" + IP.substring(0,2) + ".";
-                IP_OUT += "0" + IP.substring(3,5) + ".";
-                IP_OUT += "0" + IP.substring(6,8) + ".";
-                IP_OUT += "0" + IP.substring(9,11);
+                IP_OUT += "0" + IP.substring(0,3) + ".";
+                IP_OUT += "0" + IP.substring(3,6) + ".";
+                IP_OUT += "0" + IP.substring(6,9) + ".";
+                IP_OUT += "0" + IP.substring(9,12);
             }
             return makeIP(IP_OUT);
         }
