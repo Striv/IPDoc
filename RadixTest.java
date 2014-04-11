@@ -1,12 +1,20 @@
 import java.util.Scanner;
-import java.io.FileReader;
+import java.util.regex.*;
+import java.io.*;
 
 public class RadixTest {
     public static void main (String [] args)
     {
-        Scanner sc = new Scanner(new FileReader("ips.txt"));
-        while(sc.hasNext())
-            System.out.println(makeIP(sc.nextLine()));
+        try {
+        Scanner sc = new Scanner(new File("ips.txt")).useDelimiter("\\Z");
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+
+        //while(sc.hasNext())
+          //  System.out.println(makeIP(sc.next()));
         //System.out.println("Done.");
     }
     public static String makeIP (String IP)
@@ -28,9 +36,24 @@ public class RadixTest {
             }
             return IP_OUT.substring(0,IP_OUT.length()-2);
         }
+        //else if() // Case where ip address is concatenated string
         return "UNCHANGED: " + IP;
     }
 
+    public static boolean validIP(String IP)
+    {
+        String [] oc = IP.split("\\.");
+        boolean p1 = false, p2 = false, p3 = false, p4 = false;
+        if(Integer.parseInt(oc[0]) > 0 && Integer.parseInt(oc[0]) < 256)
+            p1 = true;
+        if(Integer.parseInt(oc[1]) >= 0 && Integer.parseInt(oc[1]) < 256)
+            p2 = true;
+        if(Integer.parseInt(oc[2]) >= 0 && Integer.parseInt(oc[2]) < 256)
+            p3 = true;
+        if(Integer.parseInt(oc[3]) >= 0 && Integer.parseInt(oc[3]) < 255)
+            p4 = true;
+        return (p1 && p2 && p3 && p4);
+    }
 }
 
 
