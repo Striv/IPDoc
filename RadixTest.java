@@ -85,8 +85,38 @@ public class RadixTest {
             }
             return IP_OUT.substring(0,IP_OUT.length()-2);
         }
-        //else if() // Case where ip address is concatenated string
-        return "UNCHANGED: " + IP;
+        else // Case where ip address is concatenated string
+        {
+            if (IP.indexOf("0x") == 0)
+            {
+                IP_OUT += "0x" + IP.substring(2,3) + ".";
+                IP_OUT += "0x" + IP.substring(4,5) + ".";
+                IP_OUT += "0x" + IP.substring(6,7) + ".";
+                IP_OUT += "0x" + IP.substring(8,9);
+            }
+            else if(IP.length() == 31)
+            {
+                IP_OUT += IP.substring(0,6) + ".";
+                IP_OUT += IP.substring(7,14) + ".";
+                IP_OUT += IP.substring(15,22) + ".";
+                IP_OUT += IP.substring(23,30);                
+            }
+            else if(IP.length() == 32)
+            {
+                IP_OUT += IP.substring(0,7) + ".";
+                IP_OUT += IP.substring(7,14) + ".";
+                IP_OUT += IP.substring(15,22) + ".";
+                IP_OUT += IP.substring(23,30);                
+            }
+            else if(IP.length() == 12)
+            {
+                IP_OUT += "0" + IP.substring(0,2) + ".";
+                IP_OUT += "0" + IP.substring(3,5) + ".";
+                IP_OUT += "0" + IP.substring(6,7) + ".";
+                IP_OUT += "0" + IP.substring(9,11);
+            }
+            return makeIP(IP_OUT);
+        }
     }
 
     public static boolean validIP(String IP)
