@@ -8,62 +8,62 @@ public class RadixTest {
     {
         try {
             Scanner sc = new Scanner(new FileReader("ips.txt")).useDelimiter("\\Z");
-            System.out.println(parseFile(sc.next()));
+            ArrayList<String> ipList = new ArrayList<String>();
+            //-------------------------------------------- 
+            // Hex Strings (Dot Separated)
+            String re1 = "0x([0-9a-fA-F]{1,2})\\.0x([0-9a-fA-F]{1,2})\\.0x([0-9a-fA-F]{1,2})\\.0x([0-9a-fA-F]{1,2})";
+            // Binary String (Dot Separated)
+            String re2 = "([0-1]{1,8})\\.([0-1]{1,8})\\.([0-1]{1,8})\\.([0-1]{1,8})";
+            // Octal String (Dot Separated)
+            String re3 = "0[0-7]{3}\\.0[0-7]{3}\\.0[0-7]{3}\\.0[0-7]{3}";
+            // Decimal Strings (Dot Separated)
+            String re4 = "([0-9]{1,3})\\.([0-9]{1,3})\\.([0-9]{1,3})\\.([0-9]{1,3})";
+            // Binary Concatenated
+            String re5 = "([0-1]{31,32})";
+            // Hexadecimal String Concatenated
+            String re6 = "0x([0-9a-fA-F]{8})";
+            // Octal String Concatenated
+            String re7 = "([0-7]{12})";
+            String [] rex = {re1, re2, re3, re4, re5, re6, re7};
+            //-------------------------------------------- 
+            String file = sc.next();
+            for(String re : rex)
+            {
+                parseFile(file, re, ipList);
+            }
+            System.out.println(ipList);
+            
         }
         catch(Exception e)
         {
             e.printStackTrace();
         }
-
-        //while(sc.hasNext())
-          //  System.out.println(makeIP(sc.next()));
-        //System.out.println("Done.");
     }
 
-    public static ArrayList<String> parseFile(String fileContents)
+    public static void parseFile(String fileContents, String re, ArrayList<String> ipList)
     {
-        ArrayList<String> ipList = new ArrayList<String>();
         String in = fileContents;
-        //-------------------------------------------- 
-        // Hex Strings (Dot Separated)
-        String re1 = "0x([0-9a-fA-F]{1,2})\\.0x([0-9a-fA-F]{1,2})\\.0x([0-9a-fA-F]{1,2})\\.0x([0-9a-fA-F]{1,2})";
-        // Binary String (Dot Separated)
-        String re2 = "([0-1]{7,8})\\.([0-1]{7,8})\\.([0-1]{7,8})\\.([0-1]{7,8})";
-        // Octal String (Dot Separated)
-        String re3 = "0[0-7]{3}\\.0[0-7]{3}\\.0[0-7]{3}\\.0[0-7]{3}";
-        // Decimal Strings (Dot Separated)
-        String re4 = "([0-9]{1,3})\\.([0-9]{1,3})\\.([0-9]{1,3})\\.([0-9]{1,3})";
-        // Binary Concatenated
-        String re5 = "([0-1]{31,32})";
-        // Hexadecimal String Concatenated
-        String re6 = "0x([0-9a-fA-F]{7,8})";
-        // Octal String Concatenated
-        String re7 = "([0-7]{11,12})";
-
-        String [] rex = {re1, re2, re3, re4}; //, re3, re4, re5};
+        //--------------------------------------------         
         while(!"".equals(in))
         {
-            for(String re : rex)
+            Pattern p = Pattern.compile(re,Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
+            Matcher m = p.matcher(in);
+        
+            if (m.find())
             {
-                Pattern p = Pattern.compile(re,Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
-                Matcher m = p.matcher(in);
-            
-                if (m.find())
+                String testIP = makeIP(in.substring(m.start(),m.end()));
+                //System.out.println("Testing: " + testIP);
+                System.out.println("PreFabString: " + in.substring(m.start(),m.end()));
+                if(validIP(testIP))
                 {
-                    String testIP = makeIP(in.substring(m.start(),m.end()));
-                    if(validIP(testIP))
-                    {
-                        ipList.add(testIP);    
-                    }
-                    
-                    in = in.substring(m.end()+1);
+                    ipList.add(testIP);    
                 }
-                else
-                    in = "";
+                in = in.substring(m.end()+1);
             }
+            else
+                in = "";
         }
         //--------------------------------------------
-        return ipList;
     }
 
     public static String makeIP (String IP)
