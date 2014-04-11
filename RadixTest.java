@@ -8,7 +8,7 @@ public class RadixTest {
     {
         try {
             Scanner sc = new Scanner(new FileReader("ips.txt")).useDelimiter("\\Z");
-            System.out.println(sc.next());
+            System.out.println(parseFile(sc.next()));
         }
         catch(Exception e)
         {
@@ -20,22 +20,26 @@ public class RadixTest {
         //System.out.println("Done.");
     }
 
-    public ArrayList<String> parseFile(String fileContents)
+    public static ArrayList<String> parseFile(String fileContents)
     {
         ArrayList<String> ipList = new ArrayList<String>();
+        String in = fileContents;
         //--------------------------------------------
-        String re1="(\\d+)";    // Integer Number 1
-        String re2=".*?";   // Non-greedy match on filler
-        String re3="(\\d+)";    // Integer Number 2
-        String re4=".*?";   // Non-greedy match on filler
-        String re5="(\\d+)";    // Integer Number 3
-        String re6=".*?";   // Non-greedy match on filler
-        String re7="(\\d+)";    // Integer Number 4
-
-        Pattern p = Pattern.compile(re1+re2+re3+re4+re5+re6+re7,Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
-        Matcher m = p.matcher(txt);
+        // Binary / Hexadecimal / Octal Strings (Dot Separated)
+        String re1 = "([0-9a-fxA-FX]{1,8})\\.([0-9a-fxA-FX]{1,8})\\.([0-9a-fxA-FX]{1,8})\\.([0-9a-fxA-FX]{1,8})";
+        // Binary Concatenated
+        String re2 = "([0-1]{31,32})";
+        // Hexadecimal String Concatenated
+        String re3 = "0x([0-9a-fA-F]{7,8})";
+        // Octal String Concatenated
+        String re4 = "([0-7]{11,12})";
+        
+        Pattern p = Pattern.compile(re,Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
+        Matcher m = p.matcher(in);
+        
         if (m.find())
         {
+            System.out.println(in.substring(m.start(),m.end()));
             String int1=m.group(1);
             String int2=m.group(2);
             String int3=m.group(3);
@@ -45,6 +49,7 @@ public class RadixTest {
         //--------------------------------------------
         return ipList;
     }
+
     public static String makeIP (String IP)
     {
         String [] octets;
