@@ -44,13 +44,17 @@ public class RadixTest {
     {
         String [] oc = IP.split("\\.");
         boolean p1 = false, p2 = false, p3 = false, p4 = false;
-        if(Integer.parseInt(oc[0]) > 0 && Integer.parseInt(oc[0]) < 256)
+        int a = Integer.parseInt(oc[0]);
+        int b = Integer.parseInt(oc[1]);
+        int c = Integer.parseInt(oc[2]);
+        int d = Integer.parseInt(oc[3]);
+        if(a > 0 && a < 256)
             p1 = true;
-        if(Integer.parseInt(oc[1]) >= 0 && Integer.parseInt(oc[1]) < 256)
+        if(b >= 0 && b < 256)
             p2 = true;
-        if(Integer.parseInt(oc[2]) >= 0 && Integer.parseInt(oc[2]) < 256)
+        if(c >= 0 && c < 256)
             p3 = true;
-        if(Integer.parseInt(oc[3]) >= 0 && Integer.parseInt(oc[3]) < 255)
+        if(d >= 0 && d < 255)
             p4 = true;
         return (p1 && p2 && p3 && p4);
     }
