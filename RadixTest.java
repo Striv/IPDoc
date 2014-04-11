@@ -24,17 +24,15 @@ public class RadixTest {
     {
         ArrayList<String> ipList = new ArrayList<String>();
         String in = fileContents;
-        //--------------------------------------------
-        // 
-        // Decimal Strings (Dot Separated)
-        String re4 = "([0-9]{1,3})\\.([0-9]{1,3})\\.([0-9]{1,3})\\.([0-9]{1,3})";
+        //-------------------------------------------- 
         // Hex Strings (Dot Separated)
         String re1 = "0x([0-9a-fA-F]{1,2})\\.0x([0-9a-fA-F]{1,2})\\.0x([0-9a-fA-F]{1,2})\\.0x([0-9a-fA-F]{1,2})";
         // Binary String (Dot Separated)
         String re2 = "([0-1]{7,8})\\.([0-1]{7,8})\\.([0-1]{7,8})\\.([0-1]{7,8})";
         // Octal String (Dot Separated)
         String re3 = "0[0-7]{3}\\.0[0-7]{3}\\.0[0-7]{3}\\.0[0-7]{3}";
-
+        // Decimal Strings (Dot Separated)
+        String re4 = "([0-9]{1,3})\\.([0-9]{1,3})\\.([0-9]{1,3})\\.([0-9]{1,3})";
         // Binary Concatenated
         String re5 = "([0-1]{31,32})";
         // Hexadecimal String Concatenated
@@ -52,8 +50,12 @@ public class RadixTest {
             
                 if (m.find())
                 {
-                    System.out.println(in.substring(m.start(),m.end()));
-                    ipList.add(makeIP(in.substring(m.start(),m.end())));
+                    String testIP = makeIP(in.substring(m.start(),m.end()));
+                    if(validIP(testIP))
+                    {
+                        ipList.add(testIP);    
+                    }
+                    
                     in = in.substring(m.end()+1);
                 }
                 else
