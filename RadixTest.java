@@ -1,6 +1,8 @@
 import java.util.Scanner;
 import java.util.regex.*;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.*;
 import java.io.*;
 
 public class RadixTest {
@@ -31,11 +33,32 @@ public class RadixTest {
                 parseFile(file, re, ipList);
 
             // Find most frequently occurring IP in list
-            
+            // HashMap to store IP and its count
+            Map<String, Integer> ipCounts = new HashMap<>();
 
+            // Iterate through list of IPs
+            for(String s: ipList)   
+            {
+                // If we find IP in list, increment it, otherwise add it
+                Integer c = ipCounts.get(s);
+                if(c == null) c = new Integer(0);
+                c++;
+                ipCounts.put(s,c);
+            }
 
-            System.out.println(ipList);
-            
+            // Create hashmap entry to find mode IP 
+            Map.Entry<String,Integer> mostRepeated = null;
+            // Iterate through and find max value, set entry
+            for(Map.Entry<String, Integer> e: ipCounts.entrySet())
+            {
+                if(mostRepeated == null || mostRepeated.getValue()<e.getValue())
+                    mostRepeated = e;
+            }
+            if(mostRepeated != null) // If we have a max repeated IP, print it
+                System.out.println(mostRepeated.getKey());
+
+            // Need to add check for other keys in array with max value
+            // Then put in array, then sort ascending, then print            
         }
         catch(Exception e)
         {
@@ -55,8 +78,7 @@ public class RadixTest {
             if (m.find())
             {
                 String testIP = makeIP(in.substring(m.start(),m.end()));
-                //System.out.println("Testing: " + testIP);
-                System.out.println(in.substring(m.start(),m.end()) + "\t-->\t\t" + testIP);
+                
                 if(validIP(testIP))
                     ipList.add(testIP);
                 in = in.substring(m.end()+1);
