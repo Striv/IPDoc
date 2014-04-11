@@ -1,12 +1,14 @@
 import java.util.Scanner;
 import java.util.regex.*;
+import java.util.ArrayList;
 import java.io.*;
 
 public class RadixTest {
     public static void main (String [] args)
     {
         try {
-        Scanner sc = new Scanner(new File("ips.txt")).useDelimiter("\\Z");
+            Scanner sc = new Scanner(new FileReader("ips.txt")).useDelimiter("\\Z");
+            System.out.println(sc.next());
         }
         catch(Exception e)
         {
@@ -16,6 +18,32 @@ public class RadixTest {
         //while(sc.hasNext())
           //  System.out.println(makeIP(sc.next()));
         //System.out.println("Done.");
+    }
+
+    public ArrayList<String> parseFile(String fileContents)
+    {
+        ArrayList<String> ipList = new ArrayList<String>();
+        //--------------------------------------------
+        String re1="(\\d+)";    // Integer Number 1
+        String re2=".*?";   // Non-greedy match on filler
+        String re3="(\\d+)";    // Integer Number 2
+        String re4=".*?";   // Non-greedy match on filler
+        String re5="(\\d+)";    // Integer Number 3
+        String re6=".*?";   // Non-greedy match on filler
+        String re7="(\\d+)";    // Integer Number 4
+
+        Pattern p = Pattern.compile(re1+re2+re3+re4+re5+re6+re7,Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
+        Matcher m = p.matcher(txt);
+        if (m.find())
+        {
+            String int1=m.group(1);
+            String int2=m.group(2);
+            String int3=m.group(3);
+            String int4=m.group(4);
+            System.out.print("("+int1.toString()+")"+"("+int2.toString()+")"+"("+int3.toString()+")"+"("+int4.toString()+")"+"\n");
+        }
+        //--------------------------------------------
+        return ipList;
     }
     public static String makeIP (String IP)
     {
