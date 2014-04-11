@@ -28,9 +28,12 @@ public class RadixTest {
             //-------------------------------------------- 
             String file = sc.next();
             for(String re : rex)
-            {
                 parseFile(file, re, ipList);
-            }
+
+            // Find most frequently occurring IP in list
+            
+
+
             System.out.println(ipList);
             
         }
@@ -53,11 +56,9 @@ public class RadixTest {
             {
                 String testIP = makeIP(in.substring(m.start(),m.end()));
                 //System.out.println("Testing: " + testIP);
-                System.out.println(in.substring(m.start(),m.end()) + "\t\t\t-->\t\t\t" + testIP);
+                System.out.println(in.substring(m.start(),m.end()) + "\t-->\t\t" + testIP);
                 if(validIP(testIP))
-                {
-                    ipList.add(testIP);    
-                }
+                    ipList.add(testIP);
                 in = in.substring(m.end()+1);
             }
             else
@@ -110,6 +111,7 @@ public class RadixTest {
             }
             else if(IP.length() == 12)
             {
+
                 IP_OUT += "0" + IP.substring(0,3) + ".";
                 IP_OUT += "0" + IP.substring(3,6) + ".";
                 IP_OUT += "0" + IP.substring(6,9) + ".";
